@@ -1,10 +1,3 @@
-![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/98a2b08d-b9c6-4f80-af35-812fa39c3231)# Churn_EDA_Solution
-통신사 고객 이탈에 대한 탐색적 분석 방법을 진행하고 결과를 도출하여 해결 방안을 제시하고 배포하여 이탈 방지 기여도를 작성합니다.
-
-# 데이터 세트 설명
-
-"고객을 유지하기 위한 행동 예측하기. 모든 관련 고객 데이터를 분석하고 집중적인 고객 유지 프로그램을 개발할 수 있습니다." [IBM 샘플 데이터 세트]
-
 데이터 세트 출처(https://www.kaggle.com/competitions/store-sales-time-series-forecasting/data)
 
 데이터 목록
@@ -24,17 +17,33 @@
 
 | 번호 | 내용                                             |
 |------|--------------------------------------------------|
-|  I  | [데이터 준비 및 분석](#1)                          |
-| II  | [모델링](#2)                                     |
-| III | [결과 해석 및 적용](#3)                         |
-| IV  | [배포 및 적용](#4)                              |
+|  I  | [데이터 준비 및 분석](#I-데이터-준비-및-분석)      |
+|  1. | [데이터 준비](#1-데이터-준비)    		  |
+|  2. | [데이터 탐색](#2-데이터-탐색) 			  |
+|  3. | [가설 설정(#3-가설-설정) 			  |
+|  4. | [데이터 탐색(#4-데이터-탐색) 			  |
+| II  | [모델링](#II-모델링)                              |
+|  5. | [모델 선택](#5-모델-선택)    		 	  |
+|  6. | [모델 튜닝](#6-모델-튜닝)			  |
+|  7. | [로지스틱 회귀분석](#6-로지스틱-회귀분석)	  |
+|  8. | [랜덤 포레스트](#7-랜덤-포레스트)		  |
+|  9. | [서포트 벡터 머신(SVM](#8-서포트-벡터-머신)	  |
+| 10. | [아다 부스트](#9-ADA-Boost)			  |
+| 11. | [XG 부스트](#10-XG-Boost)			  |
+| III | [모델 평가](#III-3)                       	  |
+| IV  | [모델 적용 및 결과](#IV-4)                        |
+
 
 
 
 <!-- intro -->
-<div id="1">
+<div id="#I-데이터-준비-및-분석">
 
 # I. 데이터 준비 및 분석
+
+</div>
+
+## 1.데이터 준비
 
 라이브러리 임포트
 
@@ -93,7 +102,11 @@ df_dummies.head()
 5 rows × 46 columns
 ```
 
-### 기본 시각화
+<div id="#2-데이터-탐색">
+
+## 2.테이터 탐색
+
+</div>
 
 `이탈 여부' 기준 변수 시각화
 
@@ -155,7 +168,11 @@ Output
 
 시각화 결과 성별에 따른 '이탈 여부'는 신경쓰지 않아도 된다고 판단된다.
 
-## 1.가설 설정
+<div id="#3-가설-설정">
+
+## 3.가설 설정
+
+</div>
 
 기존에 가지고 있던 도메인 지식을 바탕으로 타겟 변수에 영향을 크게 미칠 것 같은 변수를 기준으로 가설을 설정
 
@@ -264,7 +281,13 @@ Output
 
 '가입 기간'에 따른 고객 별 수는 신규 유입 고객과 70개월 이상인 고객이 두드러지게 많은 그래프를 보여주었다.
 
+<div id="#4-데이터-탐색">
 
+## 4.데이터 탐색
+
+</div>
+
+### '계약 기간' 별 '이탈 여부' 시각화
 
 ```python
 import matplotlib.pyplot as plt
@@ -306,7 +329,6 @@ Output
 
 여기서 원-핫 인코딩을 진행한 'Month to Month Contract', 'One Year Contract', 'Two Year Contract' 에 대해 시각화를 진행. 각각 '이탈 여부'에 따른 월별 계약서 작성 시 음의 상관관계, 1년 단위 계약시 양의 상관관계, 2년 단위 계약시 강한 양의 상관관계를 보여준다.
 
-## 2.EDA(탐색적 데이터 분석)
 
 ### '온라인 서비스'에 관한 '이탈 여부' 시각화
 
@@ -355,6 +377,7 @@ Output
 
 그래프 확인 결과,  'OnlineSecurity', 'TechSupport'  등 서비스를 이용하지 않은 고객이 더 많았다.
 
+### 이탈률 시각화화
 
 ```python
 # 사용할 색상 정의
@@ -445,6 +468,8 @@ ax.set_title('Distribution of monthly charges by churn')
 
 ```
 
+### 커널 밀도 그래프프
+
 이 KDE 그래프는 'MonthlyCharges' (월별 요금)에 따른 고객의 이탈률 분포를 시각적으로 보여준다
 
 Output
@@ -486,11 +511,18 @@ Output
 마찬가지로 '전체 요금' 역시 요금을 많이 내는 고객일수록 이탈률이 현저히 높았다.
 
 
-</div>
 
-<div id="2">
+<div id="#II-모델링">
 
 # II. 모델링
+
+</div>
+
+<div id="#5-모델-선택">
+
+## 5.모델 선택
+
+</div>
 
 일단 타겟 변수 'Churn'을 제외하고 원-핫 인코딩을 실시한 설명 변수들을 라벨링
 
@@ -520,6 +552,12 @@ features = X.columns.tolist()
 X.columns = features
 ```
 
+<div id="#6-튜닝">
+
+## 6.모델 튜닝
+
+</div">
+
 타겟 변수(종속 변수), 설명 변수(독립 변수) 라벨
 
 ```python
@@ -530,6 +568,12 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 ```
 
+<div id="#7-로지스틱-회귀분석">
+
+## 7.로지스틱 회귀분
+
+</div">
+
 ```python
 # sklearn에서 로지스틱 회귀 모델을 임포트합니다.
 from sklearn.linear_model import LogisticRegression
@@ -550,10 +594,6 @@ model = LogisticRegression()
 
 # 학습 데이터를 사용하여 모델을 학습시킵니다.
 result = model.fit(X_train, y_train)
-
-```
-
-```python
 
 ```
 
@@ -571,66 +611,247 @@ weights = pd.Series(model.coef_[0], index=X.columns.values)
 print(weights.sort_values(ascending=False)[:10].plot(kind='bar'))
 ```
 
+Output
 
+![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/3e67977a-f8a8-4e12-be10-beb4945e82b8)
 
+```python
+print(weights.sort_values(ascending = False)[-10:].plot(kind='bar'))
+```
 
+Output
 
+![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/597a6c1b-2319-450f-9778-2058b0f6e094)
 
-## 4.모델 구축
+<div id="#8-랜덤-포레스트">
 
-
-
-## 5.모델 평가
-
-
-
-## 6.모델 최적화
-
-
-
-
-
+## 8. 랜덤 포레스트
 
 </div>
 
-<div id="3">
-
-# III. 결과 해석 및 적용
-
-## 7.모델 해석
+설정
 
 
+* 랜덤 포레스트 분류기 모델을 설정합니다.
+* n_estimators : 생성할 트리의 개수
+* oob_score : out-of-bag 점수를 사용할 것인지 여부
+* n_jobs : 병렬로 실행할 작업 수 (-1은 모든 프로세서를 사용함을 의미)
+* max_features : 최적의 분할을 위해 고려할 피처의 수 (여기서는 제곱근)
+* max_leaf_nodes : 리프 노드의 최대 수
 
-## 8.방안 제시
 
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
+from sklearn import metrics
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=101)
+
+model_rf = RandomForestClassifier(n_estimators=1000 , oob_score=True, n_jobs=-1,
+                                  random_state=50, max_features="sqrt",
+                                  max_leaf_nodes=30)
+model_rf.fit(X_train, y_train)
+
+# Make predictions
+prediction_test = model_rf.predict(X_test)
+print(metrics.accuracy_score(y_test, prediction_test))
+
+```
+
+Output
+
+```python
+0.8088130774697939
+```
+
+
+```python
+# 랜덤 포레스트의 특성 중요도
+importances = model_rf.feature_importances_
+
+# 특성 중요도를 pandas Series로 변환
+weights = pd.Series(importances, index=X.columns.values)
+
+# 상위 10개의 특성 중요도를 수평 막대 그래프로 표시
+weights.sort_values()[-10:].plot(kind='barh')
+
+```
+
+Output
+
+![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/73f574f9-944e-4aa0-9835-b2447c0025bd)
+
+<div id="#8-랜덤-포레스트">
+
+## 8. 서포트 벡터 머신 (SVM)
+
+</div">
+
+* SVM (Support Vector Machine) 알고리즘을 사용하여 분류 모델을 학습
+* 테스트 데이터셋에 대한 예측을 수행한 후, 그 정확도를 계산
+* SVM의 kernel 파라미터를 'linear'로 설정하여 선형 SVM을 사용
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=99)
+```
+
+```python
+# sklearn의 SVM 클래스를 임포트
+from sklearn.svm import SVC
+
+# 선형 커널을 사용하는 SVM 모델을 생성
+model.svm = SVC(kernel='linear') 
+
+# 학습 데이터셋을 사용하여 모델을 학습
+model.svm.fit(X_train, y_train)
+
+# 테스트 데이터셋에 대한 예측을 수행
+preds = model.svm.predict(X_test)
+
+# 테스트 데이터셋에 대한 예측 정확도를 계산
+metrics.accuracy_score(y_test, preds)
+
+```
+
+Output
+
+```python
+0.820184790334044
+```
+
+## 혼동 행렬 매트릭스 그래프
+
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
+
+# 혼동 행렬 계산
+cm = confusion_matrix(y_test, preds)
+
+# 혼동 행렬을 시각화
+plt.figure(figsize=(10,7))
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+plt.xlabel('Predicted labels')
+plt.ylabel('True labels')
+plt.title('Confusion Matrix')
+plt.show()
+
+```
+
+Output
+
+![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/6f932698-3fee-4d0d-8f57-b9b661a978e6)
+
+
+
+
+
+```python
++---------------------+--------------------------------------+------+
+| 지표                 | 계산식                                | 값   |
++---------------------+--------------------------------------+------+
+| 정확도(Accuracy)     | (TP + TN) / (TP + TN + FP + FN)       | 0.82 |
++---------------------+--------------------------------------+------+
+| 정밀도(Precision)    | TP / (TP + FP)                        | 0.69 |
++---------------------+--------------------------------------+------+
+| 재현율(Recall)       | TP / (TP + FN)                        | 0.55 |
++---------------------+--------------------------------------+------+
+| F1-점수             | 2 * (Precision * Recall) / (Precision + Recall) | 0.61 |
++---------------------+--------------------------------------+------+
+
+```
+
+
+```python
+# "gender" 열에 따라서 "Churn" 열의 값별로 그래프를 그리는 코드입니다.
+# 여기서 estimator는 각 카테고리별로 'No Churn' 비율을 퍼센트로 나타냅니다.
+ax1 = sns.catplot(x="gender", kind="count", hue="Churn", data=df,
+                  estimator=lambda x: sum(x==0)*100.0/len(x))
+# y축을 백분율로 표시하기 위한 코드입니다. 현재는 주석 처리되어 있습니다.
+#ax1.yaxis.set_major_formatter(mtick.PercentFormatter())
+
+```
+
+Output
+
+![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/d710fd13-549e-45e8-bfd4-f2fe69cbf346)
+
+<div id="#9-ADA-Boost">
+
+## 9.ADA Boost
 
 </div>
 
-<div id="4">
+* AdaBoost 분류기 객체를 생성, 이 때 기본 매개변수로 n_estimators는 50이며, base_estimator는 DecisionTreeClassifier
+* n_estimators는 약한 학습기의 수를 나타내며 기본값은 50
+* base_estimator는 기본 학습기로서 DecisionTreeClassifier가 기본값으로 사용
+* 훈련 데이터를 사용하여 모델을 학습
+* 테스트 데이터를 사용하여 예측을 수행
+* 예측 결과와 실제 값을 비교하여 정확도를 계산
 
-IV. 배포 및 적용
+```python
+from sklearn.ensemble import AdaBoostClassifier
 
+model = AdaBoostClassifier()
 
+model.fit(X_train,y_train)
 
-## 9. 모델 배포
+preds = model.predict(X_test)
 
+metrics.accuracy_score(y_test, preds)
 
+```
 
+```python
+0.8159203980099502
+```
 
+<div id="#10-XG-Boost">
+
+### 5.XG Boost
 
 </div>
 
-<div id="5">
+* XGBoost 분류기 객체를 생성
+* 훈련 데이터를 사용하여 모델을 학습
+* 테스트 데이터를 사용하여 예측을 수행
+* 예측 결과와 실제 값을 비교하여 정확도를 계산
+
+```python
+from xgboost import XGBClassifier
+
+model = XGBClassifier()
+
+model.fit(X_train, y_train)
+
+preds = model.predict(X_test)
+
+metrics.accuracy_score(y_test, preds)
+
+```
+```python
+0.8095238095238095
+```
+
+<div id="#III-3">
+
+# III.모델 평가
 
 </div>
 
-<div id="6">
+<div id="#IV-4">
+
+# IV.모델 적용 및 결과
 
 </div>
 
-<div id="7">
 
-</div>
 
-<div id="8">
+
+
+
+
+
+
 
