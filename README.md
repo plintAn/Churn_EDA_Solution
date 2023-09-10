@@ -36,13 +36,13 @@
 
 
 <!-- intro -->
-<div id="#I-데이터-준비-및-분석">
+<div id="I-데이터-준비-및-분석">
 
 # I. 데이터 준비 및 분석
 
 </div>
 
-<div id="#1-데이터-준비">
+<div id="1-데이터-준비">
 
 ## 1.데이터 준비
 
@@ -105,7 +105,7 @@ df_dummies.head()
 5 rows × 46 columns
 ```
 
-<div id="#2-데이터-탐색">
+<div id="2-데이터-탐색">
 
 ## 2.테이터 탐색
 
@@ -171,7 +171,7 @@ Output
 
 시각화 결과 성별에 따른 '이탈 여부'는 신경쓰지 않아도 된다고 판단된다.
 
-<div id="#3-가설-설정">
+<div id="3-가설-설정">
 
 ## 3.가설 설정
 
@@ -284,7 +284,7 @@ Output
 
 '가입 기간'에 따른 고객 별 수는 신규 유입 고객과 70개월 이상인 고객이 두드러지게 많은 그래프를 보여주었다.
 
-<div id="#4-데이터-시각">
+<div id="4-데이터-시각">
 
 ## 4.데이터 시각
 
@@ -515,13 +515,13 @@ Output
 
 
 
-<div id="#II-모델링">
+<div id="II-모델링">
 
 # II. 모델링
 
 </div>
 
-<div id="#5-모델-선택">
+<div id="5-모델-선택">
 
 ## 5.모델 선택
 
@@ -555,7 +555,7 @@ features = X.columns.tolist()
 X.columns = features
 ```
 
-<div id="#6-모델-튜닝">
+<div id="6-모델-튜닝">
 
 ## 6.모델 튜닝
 
@@ -571,7 +571,7 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=101)
 ```
 
-<div id="#7-로지스틱-회귀분석">
+<div id="7-로지스틱-회귀분석">
 
 ## 7.로지스틱 회귀분
 
@@ -626,7 +626,7 @@ Output
 
 ![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/597a6c1b-2319-450f-9778-2058b0f6e094)
 
-<div id="#8-랜덤-포레스트">
+<div id="8-랜덤-포레스트">
 
 ## 8. 랜덤 포레스트
 
@@ -685,7 +685,7 @@ Output
 ![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/73f574f9-944e-4aa0-9835-b2447c0025bd)
 
 
-<div id="#9-서포트-벡터-머신">
+<div id="9-서포트-벡터-머신">
 
 ## 9. 서포트 벡터 머신 (SVM)
 
@@ -748,7 +748,7 @@ Output
 ![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/6f932698-3fee-4d0d-8f57-b9b661a978e6)
 
 
-<div id="#10-ADA-Boost">
+<div id="10-ADA-Boost">
 
 ## 10. 아다 부스트
 
@@ -783,7 +783,7 @@ Output
 
 
 
-<div id="#11-XG-Boost">
+<div id="11-XG-Boost">
 
 ## 11. XG 부스트
 
@@ -813,7 +813,7 @@ Output
 0.8095238095238095
 ```
 
-<div id="#III-모델-평가">
+<div id="III-모델-평가">
 
 # III.모델 평가
 
