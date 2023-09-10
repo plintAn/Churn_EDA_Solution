@@ -18,19 +18,18 @@
 | 번호 | 내용                                             |
 |------|--------------------------------------------------|
 |  I  | [데이터 준비 및 분석](#I-데이터-준비-및-분석)      |
-|  1. | [데이터 준비](#1-데이터-준비)    		  |
-|  2. | [데이터 탐색](#2-데이터-탐색) 			  |
+|  1. | [데이터 준비](#2-데이터-탐색)    		  |
 |  3. | [가설 설정](#3-가설-설정) 			  |
 |  4. | [데이터 탐색](#4-데이터-탐색) 			  |
 | II  | [모델링](#II-모델링)                              |
 |  5. | [모델 선택](#5-모델-선택)    		 	  |
 |  6. | [모델 튜닝](#6-모델-튜닝)			  |
-|  7. | [로지스틱 회귀분석](#6-로지스틱-회귀분석)	  |
-|  8. | [랜덤 포레스트](#7-랜덤-포레스트)		  |
-|  9. | [서포트 벡터 머신(SVM](#8-서포트-벡터-머신)	  |
-| 10. | [아다 부스트](#9-ADA-Boost)			  |
-| 11. | [XG 부스트](#10-XG-Boost)			  |
-| III | [모델 평가](#III-3)                       	  |
+|  7. | [로지스틱 회귀분석](#7-로지스틱-회귀분석)	  |
+|  8. | [랜덤 포레스트](#8-랜덤-포레스트)		  |
+|  9. | [서포트 벡터 머신(SVM](#9-서포트-벡터-머신)	  |
+| 10. | [아다 부스트](#10-ADA-Boost)			  |
+| 11. | [XG 부스트](#11-XG-Boost)			  |
+| III | [모델 평가](#III-모델-평가)                       	  |
 
 
 
@@ -551,7 +550,7 @@ features = X.columns.tolist()
 X.columns = features
 ```
 
-<div id="#6-튜닝">
+<div id="#6-모델-튜닝">
 
 ## 6.모델 튜닝
 
@@ -680,9 +679,11 @@ Output
 
 ![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/73f574f9-944e-4aa0-9835-b2447c0025bd)
 
-<div id="#8-랜덤-포레스트">
+</div>
 
-## 8. 서포트 벡터 머신 (SVM)
+<div id="#9-서포트-벡터-머신">
+
+## 9. 서포트 벡터 머신 (SVM)
 
 </div>
 
@@ -748,94 +749,7 @@ Output
 
 ```python
 +---------------------+--------------------------------------+------+
-| 지표                 | 계산식                                | 값   |
-+---------------------+--------------------------------------+------+
-| 정확도(Accuracy)     | (TP + TN) / (TP + TN + FP + FN)       | 0.82 |
-+---------------------+--------------------------------------+------+
-| 정밀도(Precision)    | TP / (TP + FP)                        | 0.69 |
-+---------------------+--------------------------------------+------+
-| 재현율(Recall)       | TP / (TP + FN)                        | 0.55 |
-+---------------------+--------------------------------------+------+
-| F1-점수             | 2 * (Precision * Recall) / (Precision + Recall) | 0.61 |
-+---------------------+--------------------------------------+------+
-
-```
-
-
-```python
-# "gender" 열에 따라서 "Churn" 열의 값별로 그래프를 그리는 코드입니다.
-# 여기서 estimator는 각 카테고리별로 'No Churn' 비율을 퍼센트로 나타냅니다.
-ax1 = sns.catplot(x="gender", kind="count", hue="Churn", data=df,
-                  estimator=lambda x: sum(x==0)*100.0/len(x))
-# y축을 백분율로 표시하기 위한 코드입니다. 현재는 주석 처리되어 있습니다.
-#ax1.yaxis.set_major_formatter(mtick.PercentFormatter())
-
-```
-
-Output
-
-![image](https://github.com/plintAn/Churn_EDA_Solution/assets/124107186/d710fd13-549e-45e8-bfd4-f2fe69cbf346)
-
-<div id="#9-ADA-Boost">
-
-## 9.ADA Boost
-
-</div>
-
-* AdaBoost 분류기 객체를 생성, 이 때 기본 매개변수로 n_estimators는 50이며, base_estimator는 DecisionTreeClassifier
-* n_estimators는 약한 학습기의 수를 나타내며 기본값은 50
-* base_estimator는 기본 학습기로서 DecisionTreeClassifier가 기본값으로 사용
-* 훈련 데이터를 사용하여 모델을 학습
-* 테스트 데이터를 사용하여 예측을 수행
-* 예측 결과와 실제 값을 비교하여 정확도를 계산
-
-```python
-from sklearn.ensemble import AdaBoostClassifier
-
-model = AdaBoostClassifier()
-
-model.fit(X_train,y_train)
-
-preds = model.predict(X_test)
-
-metrics.accuracy_score(y_test, preds)
-
-```
-
-Output
-
-```python
-0.8159203980099502
-```
-
-<div id="#10-XG-Boost">
-
-### 5.XG Boost
-
-</div>
-
-* XGBoost 분류기 객체를 생성
-* 훈련 데이터를 사용하여 모델을 학습
-* 테스트 데이터를 사용하여 예측을 수행
-* 예측 결과와 실제 값을 비교하여 정확도를 계산
-
-```python
-from xgboost import XGBClassifier
-
-model = XGBClassifier()
-
-model.fit(X_train, y_train)
-
-preds = model.predict(X_test)
-
-metrics.accuracy_score(y_test, preds)
-
-```
-```python
-0.8095238095238095
-```
-
-<div id="#III-모델-평가">
+| 지표 가">
 
 # III.모델 평가
 
